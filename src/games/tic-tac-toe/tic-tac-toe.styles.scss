@@ -1,0 +1,31 @@
+.main-container {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
+   .gameboard-container {
+      height: 400px;
+      width: 400px;
+      background-color: orangered;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+
+      .tile {
+         border: 2px solid #000;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+
+         &-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60%;
+            height: 60%;
+            font-size: 100px;
+         }
+      }
+   }
+}
