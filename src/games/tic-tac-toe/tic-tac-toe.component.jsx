@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./tic-tac-toe.styles.scss";
 
@@ -44,6 +44,30 @@ function Board() {
       status = `Next player: ${isXTurn ? "X" : "O"}`;
    }
 
+   useEffect(() => {
+      if (!isXTurn && !calculateWinner(squares)) {
+         setTimeout(() => {
+            getCompChoice();
+         }, 1500);
+      }
+   }, [squares]);
+
+   function getCompChoice() {
+      let emptyIndices = squares.reduce((indices, square, index) => {
+         if (square === null) {
+            indices.push(index);
+         }
+         return indices;
+      }, []);
+      if (emptyIndices.length > 0) {
+         let randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+         let nextSquares = squares.slice();
+         nextSquares[randomIndex] = "O";
+         setSquares(nextSquares);
+         setIsXTurn(true);
+      }
+   }
+
    function handleClick(i) {
       if (squares[i] || calculateWinner(squares)) {
          return;
@@ -51,11 +75,9 @@ function Board() {
       const nextSquares = squares.slice();
       if (isXTurn) {
          nextSquares[i] = "X";
-      } else {
-         nextSquares[i] = "O";
+         setSquares(nextSquares);
+         setIsXTurn(!isXTurn);
       }
-      setSquares(nextSquares);
-      setIsXTurn(!isXTurn);
    }
 
    function clearBoard() {
