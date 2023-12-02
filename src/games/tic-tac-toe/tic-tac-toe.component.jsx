@@ -1,74 +1,103 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import winningCombos from "./winning-combos";
 
 import "./tic-tac-toe.styles.scss";
 
-function TicTacToe() {
-   const [tileValues, setTileValues] = useState(Array(9).fill(""));
-   const [isPlayersTurn, setIsPlayersTurn] = useState(true);
-   const [pickedTiles, setPickedTiles] = useState([]);
-   // const [userPicks, setUserPicks] = useState([Array(3).fill(""), Array(3).fill("")]);
-   const [userPicks, setUserPicks] = useState([]);
-   const [computerPicks, setComputerPicks] = useState([]);
+function calculateWinner(squares) {
+   const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+   ];
+   for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+         return squares[a];
+      }
+   }
+   return null;
+}
 
-   const check = [1, 2, 3];
+function Square({ value, onSquareClick }) {
+   return (
+      <button className="square" onClick={onSquareClick}>
+         {value}
+      </button>
+   );
+}
 
-   function checkWinner(picks) {
-      console.log(picks);
-      const isEqual = check.every((value, index) => value === picks[index]);
+function Board() {
+   const [squares, setSquares] = useState(Array(9).fill(null));
+   const [isXTurn, setIsXTurn] = useState(true);
 
-      if (isEqual) {
-         alert("congrats you won");
+   const winner = calculateWinner(squares);
+   let status;
+
+   if (winner) {
+      status = `Winner: ${winner}`;
+   } else {
+      status = `Next player: ${isXTurn ? "X" : "O"}`;
+   }
+
+   function handleClick(i) {
+      if (squares[i] || calculateWinner(squares)) {
+         return;
+      }
+      const nextSquares = squares.slice();
+      if (isXTurn) {
+         nextSquares[i] = "X";
       } else {
-         console.log("no winner");
+         nextSquares[i] = "O";
       }
+      setSquares(nextSquares);
+      setIsXTurn(!isXTurn);
    }
 
-   function handleClick(index) {
-      if (pickedTiles.includes(index)) {
-         alert("spot already picked. try again");
-      } else if (!pickedTiles.includes(index)) {
-         setTileValues((previousValues) => {
-            const newValues = [...previousValues];
-            if (isPlayersTurn) {
-               newValues[index] = "X";
-               setUserPicks((picks) => {
-                  const updatedPicks = [...picks, index + 1];
-                  checkWinner(updatedPicks);
-                  return updatedPicks;
-               });
-               setIsPlayersTurn(!isPlayersTurn);
-            } else if (!isPlayersTurn) {
-               newValues[index] = "O";
-               setIsPlayersTurn(!isPlayersTurn);
-            }
-            setPickedTiles((tiles) => [...tiles, index]);
-            return newValues;
-         });
-      }
+   function clearBoard() {
+      setSquares(Array(9).fill(null));
+      setIsXTurn(true);
    }
 
-   function handleClearBoard() {
-      setIsPlayersTurn(true);
-      setTileValues(Array(9).fill(""));
-      setPickedTiles([]);
-   }
+   return (
+      <>
+         <div>{status}</div>
+         <div className="board-row">
+            <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+            <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+            <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+         </div>
+         <div className="board-row">
+            <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+            <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+            <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+         </div>
+         <div className="board-row">
+            <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+            <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+            <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+         </div>
+         <div>
+            <button onClick={clearBoard}>Reset</button>
+         </div>
+      </>
+   );
+}
 
-   const tiles = tileValues.map((value, index) => (
-      <div key={index} className="tile" onClick={() => handleClick(index)}>
-         <div className="tile-content">{value}</div>
-      </div>
-   ));
-
+function TicTacToe() {
    return (
       <div className="main-container">
          <Link to={"/"}>
             <button>Home</button>
          </Link>
          <h1> Tic Tac Toe</h1>
-         <div className="gameboard-container">{tiles}</div>
-         <button onClick={handleClearBoard}>Reset</button>
+         <div className="gameboard-container">
+            <Board />
+         </div>
       </div>
    );
 }
