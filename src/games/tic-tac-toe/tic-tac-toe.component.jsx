@@ -14,13 +14,20 @@ function calculateWinner(squares) {
       [0, 4, 8],
       [2, 4, 6],
    ];
+
+   // This will check if we have a winner and returns that winner
    for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
          return squares[a];
       }
    }
-   return null;
+
+   // check if all indexs are not null
+   const remainingSpots = squares.filter((index) => index === null);
+   if (remainingSpots.length > 0) {
+      return null;
+   } else return "tie";
 }
 
 function Square({ value, onSquareClick }) {
@@ -38,8 +45,10 @@ function Board() {
    const winner = calculateWinner(squares);
    let status;
 
-   if (winner) {
+   if (winner && winner !== "tie") {
       status = `Winner: ${winner}`;
+   } else if (winner === "tie") {
+      status = `It's a tie!`;
    } else {
       status = `Next player: ${isXTurn ? "X" : "O"}`;
    }
