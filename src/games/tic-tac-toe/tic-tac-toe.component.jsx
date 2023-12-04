@@ -41,16 +41,18 @@ function Square({ value, onSquareClick }) {
 function Board() {
    const [squares, setSquares] = useState(Array(9).fill(null));
    const [isXTurn, setIsXTurn] = useState(true);
+   const [playerScore, setPlayerScore] = useState(0);
+   const [compScore, setCompScore] = useState(0);
 
    const winner = calculateWinner(squares);
    let status;
 
    if (winner && winner !== "tie") {
-      status = `Winner: ${winner}`;
+      status = `${winner} won!`;
    } else if (winner === "tie") {
       status = `It's a tie!`;
    } else {
-      status = `Next player: ${isXTurn ? "X" : "O"}`;
+      status = `Current pick: ${isXTurn ? "X" : "O"}`;
    }
 
    useEffect(() => {
@@ -58,6 +60,10 @@ function Board() {
          setTimeout(() => {
             getCompChoice();
          }, 1500);
+      } else if (winner === "X") {
+         setPlayerScore((score) => (score += 1));
+      } else if (winner === "O") {
+         setCompScore((score) => (score += 1));
       }
    }, [squares]);
 
@@ -97,6 +103,8 @@ function Board() {
    return (
       <>
          <div>{status}</div>
+         <div>Player&apos;s score: {playerScore}</div>
+         <div>Computer&apos;s score: {compScore}</div>
          <div className="board-row">
             <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
             <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
