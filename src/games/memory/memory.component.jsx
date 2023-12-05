@@ -5,21 +5,6 @@ import Data from "./data";
 import Card from "../memory/card/card.component";
 import "./memory.styles.scss";
 
-// const
-
-// function Memory() {
-//    return (
-//       <div>
-//          <h1> memory game will be here</h1>
-//          <Link to={"/"}>
-//             <button>Home</button>
-//          </Link>
-//       </div>
-//    );
-// }
-
-// export default Memory;
-
 //GameBoard.js
 
 function GameBoard() {
@@ -29,6 +14,7 @@ function GameBoard() {
    const [secondCard, setSecondCard] = useState(null);
    const [stopFlip, setStopFlip] = useState(false);
    const [won, setWon] = useState(0);
+   const [highScore, setHighScore] = useState(0);
 
    //this function start new Game
    function NewGame() {
@@ -76,6 +62,14 @@ function GameBoard() {
             }, 1000);
          }
       }
+
+      if (won === 6) {
+         if (highScore > moves) {
+            return;
+         } else if (moves < highScore || highScore === 0) {
+            setHighScore(moves);
+         }
+      }
    }, [firstCard, secondCard]);
 
    //after the slected images have been checked for
@@ -97,6 +91,7 @@ function GameBoard() {
          <div className="header">
             <h1>Memory Game</h1>
          </div>
+         <div>High Score: {highScore}</div>
          <div className="board">
             {
                // cards component help in coverting the
