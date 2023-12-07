@@ -63,6 +63,7 @@ function GameBoard() {
          }
       }
 
+      // TODO: why highscore doesn't update when moves is lower
       if (won === 6) {
          if (highScore > moves) {
             return;

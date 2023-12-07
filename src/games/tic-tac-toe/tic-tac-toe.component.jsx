@@ -48,7 +48,7 @@ function Board() {
    let status;
 
    if (winner && winner !== "tie") {
-      status = `${winner} won!`;
+      status = `${winner} has won the game!`;
    } else if (winner === "tie") {
       status = `It's a tie!`;
    } else {
