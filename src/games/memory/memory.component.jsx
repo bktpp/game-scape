@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-import Data from "./data";
-import Card from "../memory/card/card.component";
-import "./memory.styles.scss";
+import Data from './data';
+import Card from '../memory/card/card.component';
+import './memory.styles.scss';
 
 //GameBoard.js
 
@@ -65,10 +65,10 @@ function GameBoard() {
 
       // TODO: why highscore doesn't update when moves is lower
       if (won === 6) {
-         if (highScore > moves) {
-            return;
-         } else if (moves < highScore || highScore === 0) {
+         if (highScore > moves || highScore === 0) {
             setHighScore(moves);
+         } else if (moves > highScore) {
+            return;
          }
       }
    }, [firstCard, secondCard]);
@@ -112,9 +112,9 @@ function GameBoard() {
          {won !== 6 ? (
             <div className="comments">Moves : {moves}</div>
          ) : (
-            <div className="comments">???????? You Won in {moves} moves ????????</div>
+            <div className="comments"> You Won in {moves} moves!</div>
          )}
-         <Link to={"/"}>
+         <Link to={'/'}>
             <button>Home</button>
          </Link>
          <button className="button" onClick={NewGame}>
