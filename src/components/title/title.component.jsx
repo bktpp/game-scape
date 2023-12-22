@@ -1,7 +1,7 @@
-import "./title.styles.scss";
+import './title.styles.scss';
 
 function Title() {
-   return <h1 className="title-home">Welcome to GameScape</h1>;
+   return <h1 className="title-home">GameScape.</h1>;
 }
 
 export default Title;
