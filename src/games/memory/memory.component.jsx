@@ -90,7 +90,7 @@ function GameBoard() {
    return (
       <div className="container">
          <div className="header">
-            <h1>Memory Game</h1>
+            <h1>How good is your Memory?</h1>
          </div>
          <div>High Score: {highScore}</div>
          <div className="board">
