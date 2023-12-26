@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-import "./tic-tac-toe.styles.scss";
+import './tic-tac-toe.styles.scss';
 
 function calculateWinner(squares) {
    const lines = [
@@ -27,7 +27,7 @@ function calculateWinner(squares) {
    const remainingSpots = squares.filter((index) => index === null);
    if (remainingSpots.length > 0) {
       return null;
-   } else return "tie";
+   } else return 'tie';
 }
 
 function Square({ value, onSquareClick }) {
@@ -47,12 +47,12 @@ function Board() {
    const winner = calculateWinner(squares);
    let status;
 
-   if (winner && winner !== "tie") {
+   if (winner && winner !== 'tie') {
       status = `${winner} has won the game!`;
-   } else if (winner === "tie") {
+   } else if (winner === 'tie') {
       status = `It's a tie!`;
    } else {
-      status = `Current pick: ${isXTurn ? "X" : "O"}`;
+      status = `Current pick: ${isXTurn ? 'X' : 'O'}`;
    }
 
    useEffect(() => {
@@ -60,9 +60,9 @@ function Board() {
          setTimeout(() => {
             getCompChoice();
          }, 1500);
-      } else if (winner === "X") {
+      } else if (winner === 'X') {
          setPlayerScore((score) => (score += 1));
-      } else if (winner === "O") {
+      } else if (winner === 'O') {
          setCompScore((score) => (score += 1));
       }
    }, [squares]);
@@ -77,7 +77,7 @@ function Board() {
       if (emptyIndices.length > 0) {
          let randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
          let nextSquares = squares.slice();
-         nextSquares[randomIndex] = "O";
+         nextSquares[randomIndex] = 'O';
          setSquares(nextSquares);
          setIsXTurn(true);
       }
@@ -89,7 +89,7 @@ function Board() {
       }
       const nextSquares = squares.slice();
       if (isXTurn) {
-         nextSquares[i] = "X";
+         nextSquares[i] = 'X';
          setSquares(nextSquares);
          setIsXTurn(!isXTurn);
       }
@@ -130,10 +130,10 @@ function Board() {
 function TicTacToe() {
    return (
       <div className="main-container">
-         <Link to={"/"}>
+         <Link to={'/'}>
             <button>Home</button>
          </Link>
-         <h1> Tic Tac Toe</h1>
+         <h1> Tic-Tac-Toe</h1>
          <div className="gameboard-container">
             <Board />
          </div>
